@@ -8,9 +8,9 @@ module CurryHowardCorrespondence
 import Prelude hiding (unwords)
 
 import Control.Monad (msum)
-import Data.Foldable (find)
+import Data.Foldable (any, find)
 import Data.Maybe (fromMaybe)
-import Data.Text (Text, unwords)
+import Data.Text (Text, unwords, toLower)
 
 type URL = Text
 
@@ -20,10 +20,17 @@ getCorrespondence = fromMaybe "unknown..." . lookupCorrespondence
 lookupCorrespondence :: Text -> Maybe Text
 lookupCorrespondence txt = msum $ fmap match curryHowardCorrespondence
   where
-    match (ax, bx, url)
-      | txt `elem` ax = unwords . (: [url]) <$> find (const True) bx
-      | txt `elem` bx = unwords . (: [url]) <$> find (const True) ax
+    txt' = toLower txt
+    match (as, bs, url)
+      | any ((==) txt' . toLower) as = appendUrl url <$> safeHead bs
+      | any ((==) txt' . toLower) bs = appendUrl url <$> safeHead as
       | otherwise = Nothing
+
+appendUrl :: URL -> Text -> Text
+appendUrl url = unwords . (: [url])
+
+safeHead :: [a] -> Maybe a
+safeHead = find (const True)
 
 curryHowardCorrespondence :: [([Text], [Text], URL)]
 curryHowardCorrespondence =
