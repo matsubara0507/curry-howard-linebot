@@ -17,9 +17,7 @@ thank authors.
 
 ### Button to add Bot as Friend
 
-<a href="https://line.me/R/ti/p/%40lik3765s">
-  <img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png">
-</a>
+[![](https://scdn.line-apps.com/n/line_add_friends/btn/ja.png)](https://line.me/R/ti/p/%40lik3765s)
 
 ## Reference
 
