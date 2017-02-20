@@ -7,6 +7,7 @@ module CurryHowardCorrespondence
 
 import Prelude hiding (unwords)
 
+import Control.Monad (msum)
 import Data.Foldable (find)
 import Data.Maybe (fromMaybe)
 import Data.Text (Text, unwords)
@@ -17,16 +18,12 @@ getCorrespondence :: Text -> Text
 getCorrespondence = fromMaybe "unknown..." . lookupCorrespondence
 
 lookupCorrespondence :: Text -> Maybe Text
-lookupCorrespondence txt = findWith match curryHowardCorrespondence
+lookupCorrespondence txt = msum $ fmap match curryHowardCorrespondence
   where
     match (ax, bx, url)
       | txt `elem` ax = (unwords . (: [url])) <$> find (const True) bx
       | txt `elem` bx = (unwords . (: [url])) <$> find (const True) ax
       | otherwise = Nothing
-
-findWith :: (a -> Maybe b) -> [a] -> Maybe b
-findWith _ [] = Nothing
-findWith p (a:ax) = maybe (findWith p ax) Just (p a)
 
 curryHowardCorrespondence :: [([Text], [Text], URL)]
 curryHowardCorrespondence =
