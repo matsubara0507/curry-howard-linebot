@@ -21,8 +21,8 @@ lookupCorrespondence :: Text -> Maybe Text
 lookupCorrespondence txt = msum $ fmap match curryHowardCorrespondence
   where
     match (ax, bx, url)
-      | txt `elem` ax = (unwords . (: [url])) <$> find (const True) bx
-      | txt `elem` bx = (unwords . (: [url])) <$> find (const True) ax
+      | txt `elem` ax = unwords . (: [url]) <$> find (const True) bx
+      | txt `elem` bx = unwords . (: [url]) <$> find (const True) ax
       | otherwise = Nothing
 
 curryHowardCorrespondence :: [([Text], [Text], URL)]
