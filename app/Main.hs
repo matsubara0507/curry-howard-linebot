@@ -12,6 +12,8 @@ module Main
     , echo
     ) where
 
+import CurryHowardCorrespondence (getCorrespondence)
+
 import Control.Monad (forM_)
 import Data.Maybe(fromJust)
 import qualified Data.Text as T (Text, pack, unpack)
@@ -52,7 +54,7 @@ handleEvent _ = return ()
 handleMessageEvent :: ReplyableEvent EventMessage -> IO ()
 handleMessageEvent event = do
   case getMessage event of
-    TextEM _ (Text text) -> echo (getReplyToken event) text
+    TextEM _ (Text text) -> echo (getReplyToken event) (getCorrespondence text)
     _ -> echo (getReplyToken event) "undefined message"
 
 api :: APIIO a -> IO (Either APIError a)
