@@ -13,7 +13,7 @@ thank authors.
 
 ### QR code
 
-![](http://qr-official.line.me/L/VKiXHTTuqq.png)
+![](./img/qrcode.png)
 
 ### Button to add Bot as Friend
 
